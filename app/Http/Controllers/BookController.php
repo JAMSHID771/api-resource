@@ -15,7 +15,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::with('author')->paginate(10);
-        return BookResource::collection($books);
+        return response()->json(BookResource::collection($books));
     }
 
     /**
@@ -24,7 +24,7 @@ class BookController extends Controller
     public function store(StoreBookRequest $request)
     {
         $book = Book::create($request->validated());
-        return response(new BookResource($book), 201);
+        return response()->json(new BookResource($book), 201);
     }
 
     /**
@@ -33,7 +33,7 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::with('author')->findOrFail($id);
-        return new BookResource($book);
+        return response()->json(new BookResource($book));
     }
 
     /**
@@ -43,7 +43,7 @@ class BookController extends Controller
     {
         $book = Book::findOrFail($id);
         $book->update($request->validated());
-        return new BookResource($book);
+        return response()->json(new BookResource($book));
     }
 
     /**
@@ -53,6 +53,6 @@ class BookController extends Controller
     {
         $book = Book::findOrFail($id);
         $book->delete();
-        return response(['message' => 'Kitob ochirildi'], 200);
+        return response()->json(['message' => 'Kitob ochirildi']);
     }
 }
